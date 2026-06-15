@@ -19,8 +19,11 @@ def generate():
     prompt = data.get("prompt", "")
 
     response = requests.post(
-        "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0",
-        headers={"Authorization": f"Bearer {HF_TOKEN}"},
+        "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0?wait_for_model=true",
+        headers={
+            "Authorization": f"Bearer {HF_TOKEN}",
+            "Accept": "image/png"
+        },
         json={"inputs": prompt},
     )
 
