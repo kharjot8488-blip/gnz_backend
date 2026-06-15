@@ -1,9 +1,13 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
+import base64
+import os
 
 app = Flask(__name__)
 CORS(app)
+
+HF_TOKEN = os.getenv("HF_TOKEN")
 
 @app.route("/", methods=["GET"])
 def home():
@@ -13,4 +17,15 @@ def home():
 def generate():
     data = request.json
     prompt = data.get("prompt", "")
-    return jsonify({"status": "ok", "prompt": prompt})
+
+    response = requests.post(
+        "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0",
+        headers={"Authorization": f"Bearer {HF_TOKEN}"},
+        json={"inputs": prompt},
+    )
+
+    if response.status_code == 200:
+        img_base64 = base64.b64encode(response.content).decode("utf-8")
+        return jsonify({"status": "ok", "image": img_base64})
+    else:
+        return jsonify({"status": "error", "details": response.text})
