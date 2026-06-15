@@ -1,18 +1,16 @@
 from flask import Flask, request, jsonify
-from diffusers import StableDiffusionPipeline
-import torch
+from flask_cors import CORS
+import requests
 
 app = Flask(__name__)
+CORS(app)
 
-pipe = StableDiffusionPipeline.from_pretrained(
-    "runwayml/stable-diffusion-v1-5",
-    torch_dtype=torch.float16
-).to("cuda")
+@app.route("/", methods=["GET"])
+def home():
+    return "Backend running!"
 
 @app.route("/generate", methods=["POST"])
 def generate():
-    data = request.get_json()
-    prompt = data.get("prompt", "cute cartoon")
-    image = pipe(prompt).images[0]
-    image.save("output.png")
-    return jsonify({"status": "ok", "file": "output.png"})
+    data = request.json
+    prompt = data.get("prompt", "")
+    return jsonify({"status": "ok", "prompt": prompt})
