@@ -1,18 +1,3 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-import requests
-import base64
-import os
-
-app = Flask(__name__)
-CORS(app)
-
-HF_TOKEN = os.getenv("HF_TOKEN")
-
-@app.route("/", methods=["GET"])
-def home():
-    return "Backend running!"
-
 @app.route("/generate", methods=["POST"])
 def generate():
     data = request.json
@@ -33,6 +18,6 @@ def generate():
     else:
         return jsonify({
             "status": "error",
-            "details": response.text,
-            "code": response.status_code
+            "code": response.status_code,
+            "details": response.text
         })
