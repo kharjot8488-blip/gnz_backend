@@ -31,4 +31,8 @@ def generate():
         img_base64 = base64.b64encode(response.content).decode("utf-8")
         return jsonify({"status": "ok", "image": img_base64})
     else:
-        return jsonify({"status": "error", "details": response.text})
+        return jsonify({
+            "status": "error",
+            "details": response.text,
+            "code": response.status_code
+        })
