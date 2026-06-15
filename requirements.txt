@@ -1,6 +1,4 @@
 flask
-diffusers
-transformers
-accelerate
-torch
-safetensors
+flask_cors
+gunicorn
+requests
