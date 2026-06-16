@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 HF_TOKEN = os.getenv("HF_TOKEN")
 
-API_URL = "API_URL = "API_URL = "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5"
+API_URL = "https://api-inference.huggingface.co/models/runwayml/stable-diffusion-v1-5"
 
 headers = {
     "Authorization": f"Bearer {HF_TOKEN}"
