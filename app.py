@@ -29,17 +29,17 @@ def generate():
 
     response = requests.post(API_URL, headers=headers, json={"inputs": prompt})
 
+    # SUCCESS CASE
     if response.status_code == 200:
-        # HuggingFace returns raw image bytes
         image_base64 = base64.b64encode(response.content).decode("utf-8")
         return jsonify({"status": "success", "image": image_base64})
-    else:
-        # DO NOT base64 encode error
-        return jsonify({
-            "status": "error",
-            "code": response.status_code,
-            "details": response.text
-        }), response.status_code
+
+    # ERROR CASE (DO NOT BASE64 ENCODE)
+    return jsonify({
+        "status": "error",
+        "code": response.status_code,
+        "details": response.text
+    }), response.status_code
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
