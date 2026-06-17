@@ -1,9 +1,11 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import requests
 import base64
 import os
 
 app = Flask(__name__)
+CORS(app)   # ⭐ VERY IMPORTANT ⭐
 
 HF_TOKEN = os.getenv("HF_TOKEN")
 
